@@ -69,3 +69,43 @@ Para reduzir o tamanho do código, usamos _BETWEN_ para informar um intervalo
 ```SQL
 SELECT * FROM Hospedes WHERE Sexo = 'F' AND dataNascimento BETWEEN '1980-01-01' AND '1989-12-31';
 ```
+
+## Sintaxe comando _IN_
+
+
+```SQL
+SELECT * FROM Servicos WHERE descricao = 'Lavanderia' OR descricao = 'baba'
+```
+para ficar mais compacto poderia usa-se o IN, que substitui os vários _OR_
+```SQL
+SELECT * FROM Servicos WHERE descricao IN ('Lavanderia', 'Baba')
+```
+
+## Como fazer um _FROM_ com duas tabelas ?
+- Mostre o nome dos hóspedes que tiveram estadia em 2025.
+
+    ^ Para isso, temos que pegar a tebela de hóspede, procurar se está na tabela estadia e buscar se ela está em 2025.
+    
+    Pra isso, temos que usar as duas tabelas
+
+```SQL
+SELECT * FROM Hospedes, Estadia
+```
+
+Quando tu junta duas tabelas, ela junta uma linha de uma com todas as outras fazendo uma combinação. Cada item da tabela A, se junta com todos os itens da tabela B.
+
+Nesse caso, ela vai retornar tudo, então é bom verificar se a PK de uma é igual a FK do outro, pra garantir que estão tratando realmente do mesmo item
+
+```SQL
+SELECT CPF,nome,idEstadia,Hospede,dataEntrada FROM Hospedes, Estadias WHERE CPF = Hospede;
+```
+Pra facilitar uso alias pra modificar o nome da tabela na consulta e referenciar ela pra ter certeza que a coluna é dela:
+```SQL
+SELECT h.CPF, h.nome ,e.idEstadia ,e.Hospede ,e.dataEntrada FROM Hospedes AS h, Estadias AS e WHERE h.CPF = e.Hospede;
+```
+
+- _Mostre os nomes de hóspedes que tiveram estadias em 2025_:
+
+```SQL
+SELECT h.CPF, h.nome ,e.idEstadia ,e.Hospede ,e.dataEntrada FROM Hospedes AS h, Estadias AS e WHERE CPF = Hospede; AND dataEntrada BETWEEN '2025-01-01' AND '2025-12-31'
+```
